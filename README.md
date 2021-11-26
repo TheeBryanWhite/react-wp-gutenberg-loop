@@ -1,5 +1,3 @@
-![Image](https://imgur.com/a/ZWlq5IB)![Image](https://imgur.com/a/NKSItnr)
-
 # React WordPress Gutenberg Loop
 *React components intended to be used with WordPress Gutenberg block data.*
 
