@@ -1,10 +1,13 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { graphql } from 'gatsby'
+import Layout from '../components/layout'
 import { GBlocks } from '../components/gblocks'
 
-// An example WordPress page template using my gblocks components
 const PageTemplate = ({ blocks }) => {
+    // Check for a collection of blocks
+    // If the block object exists output the looper component and send the blockData to it
+    // return <Looper blockData={blocks} />
     return <GBlocks blockData={ blocks } />
 }
 
@@ -20,17 +23,18 @@ const Page = ({ data }) => {
 
 export default Page
 
-/**
- * This works but there has to be a better way to recursively drill down through
- * the blocks that can potentially contain an infinite loop of container parents
- * (i.e. groups and columns) and child blocks.
-*/
+
+/** 
+* This query works, but it sucks and I hate it.
+* Need to find a way to run this query on each component the same way that the blocks/block/looper combo
+* works out whether to output the content or loop around for another container
+*/ 
 export const pageQuery = graphql`
     query PageByID($id: String!) {
         wpPage(id: { eq: $id }) {
             title
             blocks {
-                ... on WpCoreHeadingBlock {
+                    ... on WpCoreHeadingBlock {
                     saveContent
                     attributes {
                         ... on WpCoreHeadingBlockAttributes {
@@ -140,6 +144,59 @@ export const pageQuery = graphql`
                                     }
                                     name
                                     saveContent
+                                }
+                                ... on WpCoreGroupBlock {
+                                    attributes {
+                                        ... on WpCoreGroupBlockAttributes {
+                                            align
+                                            className
+                                        }
+                                    }
+                                    innerBlocks {
+                                        ... on WpCoreHeadingBlock {
+                                            name
+                                            attributes {
+                                                ... on WpCoreHeadingBlockAttributes {
+                                                    className
+                                                    align
+                                                }
+                                            }
+                                            saveContent
+                                        }
+                                        ... on WpCoreParagraphBlock {
+                                            saveContent
+                                            attributes {
+                                                ... on WpCoreParagraphBlockAttributes {
+                                                    align
+                                                    className
+                                                }
+                                            }
+                                        }
+                                        ... on WpAcfInlineSvgBlock {
+                                            name
+                                            attributesJSON
+                                        }
+                                        ... on WpCoreButtonsBlock {
+                                            attributes {
+                                                ... on WpCoreButtonsBlockAttributes {
+                                                    className
+                                                    align
+                                                }
+                                            }
+                                            name
+                                            saveContent
+                                        }
+                                        ... on WpCoreImageBlock {
+                                            attributes {
+                                                ... on WpCoreImageBlockAttributes {
+                                                    className
+                                                    align
+                                                }
+                                            }
+                                            name
+                                            saveContent
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -264,6 +321,61 @@ export const pageQuery = graphql`
                                             }
                                             name
                                             saveContent
+                                        }
+                                        ... on WpCoreGroupBlock {
+                                            attributes {
+                                              ... on WpCoreGroupBlockAttributes {
+                                                    align
+                                                    className
+                                                }
+                                            }
+                                            name
+                                            innerBlocks {
+                                                ... on WpCoreHeadingBlock {
+                                                    name
+                                                    attributes {
+                                                        ... on WpCoreHeadingBlockAttributes {
+                                                            className
+                                                            align
+                                                        }
+                                                    }
+                                                    saveContent
+                                                }
+                                                ... on WpCoreParagraphBlock {
+                                                    attributes {
+                                                        ... on WpCoreParagraphBlockAttributes {
+                                                            className
+                                                            align
+                                                        }
+                                                    }
+                                                    name
+                                                    saveContent
+                                                }
+                                                ... on WpAcfInlineSvgBlock {
+                                                    name
+                                                    attributesJSON
+                                                }
+                                                ... on WpCoreButtonsBlock {
+                                                    attributes {
+                                                        ... on WpCoreButtonsBlockAttributes {
+                                                            className
+                                                            align
+                                                        }
+                                                    }
+                                                    name
+                                                    saveContent
+                                                }
+                                                ... on WpCoreImageBlock {
+                                                    attributes {
+                                                        ... on WpCoreImageBlockAttributes {
+                                                            className
+                                                            align
+                                                        }
+                                                    }
+                                                    name
+                                                    saveContent
+                                                }
+                                            }
                                         }
                                     }
                                 }
