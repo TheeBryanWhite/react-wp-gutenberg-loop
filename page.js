@@ -5,9 +5,6 @@ import Layout from '../components/layout'
 import { GBlocks } from '../components/gblocks'
 
 const PageTemplate = ({ blocks }) => {
-    // Check for a collection of blocks
-    // If the block object exists output the looper component and send the blockData to it
-    // return <Looper blockData={blocks} />
     return <GBlocks blockData={ blocks } />
 }
 
