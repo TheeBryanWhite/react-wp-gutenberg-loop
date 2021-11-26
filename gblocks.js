@@ -36,7 +36,6 @@ const GBlocks = (props) => {
             // Stop. 
             // Check the field type.
             // Output the content.
-            console.log(classBuilder(block).split(' ')[0])
             if (classBuilder(block).split(' ')[0] === 'inline-svg') {
                 const json = JSON.parse(block.attributesJSON)
                 return <div className={classBuilder(block)} dangerouslySetInnerHTML={{ __html: json.data.block_inline_svg }} key={index} />
