@@ -19,3 +19,5 @@ The process repeats until every block is determined to be a content block and no
 
 ## Where this needs improvement
 The GraphQL query works but I have to manually add another layer of recursion to the GraphQL in page.js for every potential parent->child container/content relationship.
+
+I'm considering a way to write a single-level query and passing the parent container ID to the child component loop so the query isn't this bananas stack of code that only gets bigger and bigger.
